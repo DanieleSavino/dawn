@@ -1,0 +1,136 @@
+/*
+  Auto Parts theme layer for Dawn
+  ---------------------------------
+  Design direction: a workshop parts-counter, not a lifestyle storefront.
+  Palette pulls from hazard signage and galvanized steel rather than
+  the generic "cream + terracotta" or "near-black + neon" AI defaults.
+
+  Tokens:
+    Charcoal ink     #1B1D21   (text, dark surfaces)
+    Steel grey       #6B7280   (secondary text)
+    Workshop paper   #F1EFE9   (light background)
+    Steel panel      #E7E4DC   (secondary light surface)
+    Safety orange    #FF6B00   (primary accent - hazard tape)
+    Safety yellow    #FFC61A   (secondary accent - stamped tags)
+
+  Type:
+    Display  - Barlow Condensed, bold, uppercase, tight tracking
+    Body     - Inter
+    Data/SKU - IBM Plex Mono (spec-sheet feel for SKU, price, condition)
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+:root {
+  --font-heading-family: 'Barlow Condensed', var(--font-heading-family), sans-serif !important;
+  --font-heading-weight: 700 !important;
+  --font-body-family: 'Inter', var(--font-body-family), sans-serif !important;
+  --font-mono-family: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+  --ap-ink: #1b1d21;
+  --ap-steel: #6b7280;
+  --ap-paper: #f1efe9;
+  --ap-panel: #e7e4dc;
+  --ap-orange: #ff6b00;
+  --ap-yellow: #ffc61a;
+}
+
+/* Headings: tighter tracking, uppercase for a stenciled/label feel */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  text-transform: uppercase;
+  letter-spacing: 0.02em !important;
+}
+
+/* Denser catalog grid: parts shops need scannability over big lifestyle photography */
+.product-grid,
+.collection .grid {
+  --grid-desktop-horizontal-spacing: 12px;
+  --grid-desktop-vertical-spacing: 28px;
+  --grid-mobile-horizontal-spacing: 8px;
+  --grid-mobile-vertical-spacing: 20px;
+}
+
+@media screen and (min-width: 990px) {
+  .product-grid.grid--4-col-desktop .grid__item,
+  .collection .grid--4-col-desktop .grid__item {
+    width: calc(20% - var(--grid-desktop-horizontal-spacing) * 4 / 5);
+  }
+}
+
+/* Flatten card chrome: hairline border instead of soft shadow/rounded corners */
+.card,
+.card--standard {
+  border-radius: 2px !important;
+  box-shadow: none !important;
+  border: 1px solid var(--ap-panel);
+}
+
+.card__inner {
+  border-radius: 2px !important;
+}
+
+/* Stamped condition tag: the signature element.
+   A rotated, riveted-looking label overlaid on the product image,
+   like an inventory tag clipped to a used part. */
+.part-condition-tag {
+  position: absolute;
+  top: 10px;
+  left: -6px;
+  z-index: 2;
+  background: var(--ap-yellow);
+  color: var(--ap-ink);
+  font-family: var(--font-mono-family);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 3px 10px 3px 14px;
+  transform: rotate(-4deg);
+  box-shadow: 1px 2px 0 rgba(27, 29, 33, 0.35);
+  border: 1px solid rgba(27, 29, 33, 0.5);
+}
+
+.part-condition-tag::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--ap-ink);
+  transform: translateY(-50%);
+  opacity: 0.6;
+}
+
+/* SKU line: spec-sheet styling under the price */
+.part-sku {
+  font-family: var(--font-mono-family);
+  font-size: 12px;
+  color: var(--ap-steel);
+  letter-spacing: 0.03em;
+  margin-top: 2px;
+}
+
+/* Price rendered in mono for that parts-tag feel */
+.price,
+.price__container {
+  font-family: var(--font-mono-family) !important;
+}
+
+/* Buttons: square corners, no drop shadow, high-contrast hover */
+.button,
+.shopify-payment-button__button {
+  border-radius: 2px !important;
+}
+
+.button--primary,
+.shopify-payment-button__button--unbranded {
+  background: var(--ap-ink) !important;
+  color: var(--ap-paper) !important;
+}
+
+.button--primary:hover {
+  background: var(--ap-orange) !important;
+  color: var(--ap-ink) !important;
+}

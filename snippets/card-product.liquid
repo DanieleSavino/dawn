@@ -61,6 +61,22 @@
         >
           {%- if card_product.featured_media -%}
             <div class="card__media{% if image_shape and image_shape != 'default' %} shape--{{ image_shape }} color-{{ settings.card_color_scheme }} gradient{% endif %}">
+              {%- liquid
+                assign condition_label = blank
+                for tag in card_product.tags
+                  case tag
+                    when 'Usato'
+                      assign condition_label = 'USATO'
+                    when 'Nuovo'
+                      assign condition_label = 'NUOVO'
+                    when 'Ricondizionato'
+                      assign condition_label = 'RICOND.'
+                  endcase
+                endfor
+              -%}
+              {%- if condition_label != blank -%}
+                <span class="part-condition-tag">{{ condition_label }}</span>
+              {%- endif -%}
               <div class="media media--transparent media--hover-effect">
                 {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
                 <img
@@ -207,6 +223,9 @@
               {%- endif -%}
 
               {% render 'price', product: card_product, price_class: '', show_compare_at_price: true %}
+              {%- if card_product.selected_or_first_available_variant.sku != blank -%}
+                <div class="part-sku">SKU {{ card_product.selected_or_first_available_variant.sku }}</div>
+              {%- endif -%}
               {%- if card_product.quantity_price_breaks_configured? -%}
                 {% if card_product.variants_count == 1 and quick_add == 'bulk' %}
                   {% liquid
